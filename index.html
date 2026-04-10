@@ -676,7 +676,7 @@ const DEFAULT_EVENTS = [
     title: "ExeCom Planning Meet",
     date: "2025-04-13",
     desc: "Internal session for ExeCom to plan the semester event calendar, assign roles, and set goals. Discuss previous event feedback from ex-leads.",
-    type: "internal",
+    type: "others",
     status: "planned"
   },
   {
@@ -804,12 +804,22 @@ function statusColor(s) {
     confirmed: '#10b981',
     done: '#00d4ff',
     cancelled: '#ef4444',
-    not_planned: '#f59e0b' // or any color you like
+    not_planned: '#f59e0b' // Add this line for your new status
   }[s] || '#94a3b8';
 }
 
 function typeIcon(t) {
   return { workshop:'🛠', hackathon:'💻', others:'⚙️', contest:'🏆', collab:'🤝' }[t] || '📌';
+}
+
+function statusLabel(s) {
+  return {
+    planned: 'Planned',
+    confirmed: 'Confirmed',
+    done: 'Done',
+    cancelled: 'Cancelled',
+    not_planned: 'Not Planned'
+  }[s] || s;
 }
 
 // ─── RENDER ──────────────────────────────────────────────────────
