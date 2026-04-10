@@ -638,12 +638,17 @@ header {
     <div class="form-group">
       <label>Status</label>
       <select id="inp-status">
-        <option value="planned">Not Planned(only rough date)</option>
+        <option value="not_planned">Not Planned</option>
         <option value="planned">📋 Planned</option>
         <option value="confirmed">✅ Confirmed</option>
         <option value="done">🎉 Done</option>
         <option value="cancelled">❌ Cancelled</option>
       </select>
+    </div>
+
+    <div style="margin-top:8px;display:flex;align-items:center;gap:8px;">
+      <input type="checkbox" id="inp-done" style="width:16px;height:16px;">
+      <label for="inp-done" style="font-size:0.9em;">Mark as Done 🎉</label>
     </div>
 
     <button class="btn-save" onclick="saveEvent()">Save Event</button>
@@ -794,7 +799,13 @@ function fmtDate(dateStr) {
 }
 
 function statusColor(s) {
-  return { planned: '#94a3b8', confirmed: '#10b981', done: '#00d4ff', cancelled: '#ef4444' }[s] || '#94a3b8';
+  return {
+    planned: '#94a3b8',
+    confirmed: '#10b981',
+    done: '#00d4ff',
+    cancelled: '#ef4444',
+    not_planned: '#f59e0b' // or any color you like
+  }[s] || '#94a3b8';
 }
 
 function typeIcon(t) {
@@ -885,7 +896,7 @@ async function saveEvent() {
   const title  = document.getElementById("inp-title").value.trim();
   const date   = document.getElementById("inp-date").value;
   const desc   = document.getElementById("inp-desc").value.trim();
-  const type   = document.querySelector('input[name=\"etype\"]:checked').value;
+  const type   = document.querySelector('input[name="etype\"]:checked').value;
   const status = document.getElementById("inp-status").value;
 
   if (!title || !date) { alert("Title and Date are required!"); return; }
@@ -921,7 +932,8 @@ function startEdit(idx) {
   document.getElementById("inp-desc").value = ev.desc;
   const radio = document.querySelector(`input[name="etype"][value="${ev.type}"]`);
   if (radio) radio.checked = true;
-  document.getElementById("inp-status").value = ev.status;
+  document.getElementById("inp-status").value = ev.status === "done" ? "planned" : ev.status;
+  document.getElementById("inp-done").checked = false;
   editIdx = idx;
   document.getElementById("btn-cancel").style.display = "block";
   document.querySelector('.sidebar').scrollIntoView({ behavior: 'smooth' });
