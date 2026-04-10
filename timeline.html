@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENCIDE · Event Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #080c14;
+  --surface: #0d1420;
+  --card: #111827;
+  --border: #1e2d45;
+  --accent: #00d4ff;
+  --accent2: #7c3aed;
+  --accent3: #f59e0b;
+  --green: #10b981;
+  --red: #ef4444;
+  --text: #e2e8f0;
+  --muted: #64748b;
+  --font-display: 'Syne', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-display);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Background grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── HEADER ─── */
+header {
+  position: relative;
+  z-index: 10;
+  padding: 36px 40px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.logo-name {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo-sub {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.header-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-num {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.stat-label {
+  font-size: 0.65rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* ─── EXAM BANNER ─── */
+.exam-banner {
+  position: relative;
+  z-index: 10;
+  margin: 24px 40px;
+  background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(0,212,255,0.08));
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: 12px;
+  padding: 18px 24px;
+}
+
+.exam-banner h3 {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent2);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.exam-grid {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.exam-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.exam-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.exam-text {
+  font-size: 0.82rem;
+  color: var(--text);
+}
+
+.exam-text span {
+  font-family: var(--font-mono);
+  color: var(--accent3);
+  font-size: 0.75rem;
+}
+
+/* ─── MAIN LAYOUT ─── */
+.main {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 180px);
+}
+
+/* ─── SIDEBAR FORM ─── */
+.sidebar {
+  padding: 28px 28px;
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  height: fit-content;
+}
+
+.sidebar h2 {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 7px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 11px 14px;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  appearance: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.tag-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.tag-option {
+  display: none;
+}
+
+.tag-option + label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--muted);
+  background: var(--card);
+}
+
+.tag-option:checked + label {
+  border-color: var(--accent);
+  background: rgba(0,212,255,0.1);
+  color: var(--accent);
+}
+
+.btn-save {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, var(--accent), #0099cc);
+  border: none;
+  color: #000;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  letter-spacing: 0.5px;
+  margin-top: 8px;
+}
+
+.btn-save:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-save:active { transform: translateY(0); }
+
+.btn-cancel {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+  display: none;
+}
+
+.btn-cancel:hover { border-color: var(--red); color: var(--red); }
+
+/* ─── TIMELINE PANEL ─── */
+.timeline-panel {
+  padding: 28px 36px;
+}
+
+.timeline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.timeline-header h2 {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.filter-tab {
+  padding: 6px 14px;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+}
+
+.filter-tab.active {
+  background: var(--accent);
+  color: #000;
+  font-weight: 700;
+}
+
+/* ─── PHASE HEADERS ─── */
+.phase-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 28px 0 14px;
+}
+
+.phase-label-text {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+.phase-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.phase-badge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* ─── EVENT CARDS ─── */
+.events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.event-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 16px;
+  align-items: start;
+  transition: border-color 0.2s, transform 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+
+.event-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+}
+
+.event-card:hover {
+  border-color: rgba(0,212,255,0.3);
+  transform: translateX(3px);
+}
+
+.event-date-box {
+  text-align: center;
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 8px 4px;
+  border: 1px solid var(--border);
+}
+
+.event-day {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.event-month {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 3px;
+}
+
+.event-body {}
+
+.event-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.event-desc {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.event-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.event-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  padding: 2px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.event-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.btn-edit, .btn-del {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-edit {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--muted);
+}
+
+.btn-edit:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-del {
+  background: transparent;
+  border-color: transparent;
+  color: var(--muted);
+}
+
+.btn-del:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* status badge */
+.status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+/* ─── EMPTY STATE ─── */
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.3;
+}
+
+/* ─── TAG COLORS ─── */
+.tag-workshop   { background: rgba(0,212,255,0.12); color: #00d4ff; }
+.tag-hackathon  { background: rgba(124,58,237,0.15); color: #a78bfa; }
+.tag-talk       { background: rgba(245,158,11,0.12); color: #f59e0b; }
+.tag-internal   { background: rgba(16,185,129,0.12); color: #10b981; }
+.tag-collab     { background: rgba(239,68,68,0.12); color: #f87171; }
+.tag-contest    { background: rgba(236,72,153,0.12); color: #f472b6; }
+
+.phase-pre   .phase-badge { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
+.phase-mid   .phase-badge { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
+.phase-post  .phase-badge { background: rgba(0,212,255,0.15); color: #00d4ff; border: 1px solid rgba(0,212,255,0.3); }
+
+.pre-card::before   { background: var(--green); }
+.mid-card::before   { background: var(--accent3); }
+.post-card::before  { background: var(--accent); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 860px) {
+  .main { grid-template-columns: 1fr; }
+  .sidebar { border-right: none; border-bottom: 1px solid var(--border); position: static; }
+  header { padding: 20px; }
+  .exam-banner { margin: 16px 20px; }
+  .timeline-panel { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="logo-name">ENCIDE</span>
+    <span class="logo-sub">// Event Planner</span>
+  </div>
+  <div class="header-stats">
+    <div class="stat">
+      <div class="stat-num" id="stat-total">0</div>
+      <div class="stat-label">Events</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="stat-upcoming">0</div>
+      <div class="stat-label">Upcoming</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="stat-done">0</div>
+      <div class="stat-label">Done</div>
+    </div>
+  </div>
+</header>
+
+<div class="exam-banner">
+  <h3>// Exam Calendar — Blackout Zones</h3>
+  <div class="exam-grid">
+    <div class="exam-item">
+      <div class="exam-dot" style="background:#a78bfa"></div>
+      <div class="exam-text">3rd Year &nbsp;<span>Apr 24 → May 25</span></div>
+    </div>
+    <div class="exam-item">
+      <div class="exam-dot" style="background:#f59e0b"></div>
+      <div class="exam-text">2nd Year &nbsp;<span>Apr 28 → May 13</span></div>
+    </div>
+    <div class="exam-item">
+      <div class="exam-dot" style="background:#10b981"></div>
+      <div class="exam-text">1st Year &nbsp;<span>ends May 15</span></div>
+    </div>
+    <div class="exam-item">
+      <div class="exam-dot" style="background:#00d4ff"></div>
+      <div class="exam-text">Sem Break &nbsp;<span>Late May → Mid June</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>// Add Event</h2>
+
+    <div class="form-group">
+      <label>Event Title</label>
+      <input type="text" id="inp-title" placeholder="e.g. Intro to Git Workshop">
+    </div>
+
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" id="inp-date">
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="inp-desc" placeholder="What's the event about? Who should attend?"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Event Type</label>
+      <div class="tag-grid">
+        <input type="radio" name="etype" id="t-workshop" value="workshop" class="tag-option" checked>
+        <label for="t-workshop">🛠 Workshop</label>
+
+        <input type="radio" name="etype" id="t-hackathon" value="hackathon" class="tag-option">
+        <label for="t-hackathon">💻 Hackathon</label>
+
+        <input type="radio" name="etype" id="t-internal" value="internal" class="tag-option">
+        <label for="t-internal">⚙️ others</label>
+
+        <input type="radio" name="etype" id="t-contest" value="contest" class="tag-option">
+        <label for="t-contest">🏆 Competition</label>
+
+        <input type="radio" name="etype" id="t-collab" value="collab" class="tag-option">
+        <label for="t-collab">🤝 Collab</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Status</label>
+      <select id="inp-status">
+        <option value="planned">Not Planned(only rough date)</option>
+        <option value="planned">📋 Planned</option>
+        <option value="confirmed">✅ Confirmed</option>
+        <option value="done">🎉 Done</option>
+        <option value="cancelled">❌ Cancelled</option>
+      </select>
+    </div>
+
+    <button class="btn-save" onclick="saveEvent()">Save Event</button>
+    <button class="btn-cancel" id="btn-cancel" onclick="cancelEdit()">Cancel Edit</button>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="timeline-panel">
+    <div class="timeline-header">
+      <h2>// Event Timeline</h2>
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="setFilter('all', this)">All</button>
+        <button class="filter-tab" onclick="setFilter('upcoming', this)">Upcoming</button>
+        <button class="filter-tab" onclick="setFilter('done', this)">Done</button>
+      </div>
+    </div>
+    <div class="events-list" id="events-list"></div>
+  </div>
+</div>
+
+<script>
+// ─── DEFAULT EVENTS ───────────────────────────────────────────────
+const DEFAULT_EVENTS = [
+  {
+    title: "ExeCom Planning Meet",
+    date: "2025-04-13",
+    desc: "Internal session for ExeCom to plan the semester event calendar, assign roles, and set goals. Discuss previous event feedback from ex-leads.",
+    type: "internal",
+    status: "planned"
+  },
+  {
+    title: "Skills Workshop — Web Dev Basics",
+    date: "2025-04-19",
+    desc: "Hands-on HTML/CSS/JS workshop for all years. Last Saturday before any exams begin. Great entry point for freshers.",
+    type: "workshop",
+    status: "planned"
+  },
+  {
+    title: "Mini Coding Contest",
+    date: "2025-05-17",
+    desc: "Quick 2-hour competitive coding contest on Codeforces/HackerRank. Open to 1st and 2nd years (3rd years still in exams). Low stakes, high energy.",
+    type: "contest",
+    status: "planned"
+  },
+  {
+    title: "Tech Talk — Industry Insights",
+    date: "2025-05-22",
+    desc: "Invite a senior student, alumni, or industry guest for a 1-hour talk on internships, open source, or emerging tech trends. Online-friendly format.",
+    type: "talk",
+    status: "planned"
+  },
+  {
+    title: "ENCIDE Flagship Hackathon",
+    date: "2025-05-31",
+    desc: "Main event of the semester! All years are free. 6–12 hour hackathon with themes, mentors, and prizes. This is the quality event the ex-leads want to see.",
+    type: "hackathon",
+    status: "planned"
+  },
+  {
+    title: "Inter-Club Collab Event",
+    date: "2025-06-07",
+    desc: "Joint event with another college club (design, business, or robotics). Cross-disciplinary project showcase or challenge. Expands reach and visibility.",
+    type: "collab",
+    status: "planned"
+  },
+  {
+    title: "Semester Wrap-Up & Next Sem Planning",
+    date: "2025-06-14",
+    desc: "Review the semester, celebrate wins, collect feedback. Then kick off planning for the next semester. Transition meeting with new ExeCom leads if applicable.",
+    type: "internal",
+    status: "planned"
+  }
+];
+
+// ─── STATE ───────────────────────────────────────────────────────
+let events = JSON.parse(localStorage.getItem("encide_events_v2")) || null;
+if (!events) {
+  events = JSON.parse(JSON.stringify(DEFAULT_EVENTS));
+  persist();
+}
+let editIdx = -1;
+let currentFilter = 'all';
+
+// ─── PERSIST ─────────────────────────────────────────────────────
+function persist() {
+  localStorage.setItem("encide_events_v2", JSON.stringify(events));
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────
+
+
+function getPhase(dateStr) {
+  const d = new Date(dateStr + "T00:00:00");
+  // Use YYYY-MM for unique phase per month
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
+
+function phaseLabel(p) {
+  // p is in format YYYY-MM
+  const [year, month] = p.split('-');
+  const date = new Date(`${year}-${month}-01T00:00:00`);
+  const label = date.toLocaleString('default', { month: 'long' });
+  return [label + ' ' + year, '', `phase-${year}-${month}`];
+}
+
+
+function fmtDate(dateStr) {
+  const d = new Date(dateStr + "T00:00:00");
+  return {
+    day: d.getDate(),
+    month: d.toLocaleString('default', { month: 'short' }).toUpperCase()
+  };
+}
+
+function statusColor(s) {
+  return { planned: '#94a3b8', confirmed: '#10b981', done: '#00d4ff', cancelled: '#ef4444' }[s] || '#94a3b8';
+}
+
+function typeIcon(t) {
+  return { workshop:'🛠', hackathon:'💻', others:'⚙️', competition:'🏆', collab:'🤝' }[t] || '📌';
+}
+
+// ─── RENDER ──────────────────────────────────────────────────────
+function render() {
+  const list = document.getElementById("events-list");
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  let filtered = [...events].sort((a,b) => new Date(a.date) - new Date(b.date));
+
+  if (currentFilter === 'upcoming') filtered = filtered.filter(e => new Date(e.date) >= today && e.status !== 'done' && e.status !== 'cancelled');
+  if (currentFilter === 'done') filtered = filtered.filter(e => e.status === 'done');
+
+  list.innerHTML = "";
+
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty"><div class="empty-icon">📭</div><p>No events here yet.</p></div>`;
+    updateStats(); return;
+  }
+
+  let lastPhase = null;
+
+  filtered.forEach((ev, vi) => {
+    const realIdx = events.indexOf(ev);
+    const phase = getPhase(ev.date);
+
+    if (phase !== lastPhase) {
+      lastPhase = phase;
+      const [pl, ps, pc] = phaseLabel(phase);
+      const ph = document.createElement("div");
+      ph.className = `phase-label ${pc}`;
+      ph.innerHTML = `<span class="phase-line"></span><span class="phase-label-text">${pl}</span><span class="phase-badge">${ps}</span><span class="phase-line"></span>`;
+      list.appendChild(ph);
+    }
+
+    const { day, month } = fmtDate(ev.date);
+    // Use a generic card class for month-based grouping
+    const phaseCardClass = "month-card";
+
+    const card = document.createElement("div");
+    card.className = `event-card ${phaseCardClass}`;
+    card.innerHTML = `
+      <div class="event-date-box">
+        <div class="event-day">${day}</div>
+        <div class="event-month">${month}</div>
+      </div>
+      <div class="event-body">
+        <div class="event-title">${ev.title}</div>
+        <div class="event-desc">${ev.desc}</div>
+        <div class="event-tags">
+          <span class="event-tag tag-${ev.type}">${typeIcon(ev.type)} ${ev.type}</span>
+          <span class="event-tag" style="background:${statusColor(ev.status)}22;color:${statusColor(ev.status)};border:1px solid ${statusColor(ev.status)}44">
+            <span class="status-dot" style="background:${statusColor(ev.status)}"></span>${ev.status}
+          </span>
+        </div>
+      </div>
+      <div class="event-actions">
+        <button class="btn-edit" onclick="startEdit(${realIdx})">Edit</button>
+        <button class="btn-del" onclick="deleteEvent(${realIdx})">Delete</button>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+
+  updateStats();
+}
+
+function updateStats() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  document.getElementById("stat-total").textContent = events.length;
+  document.getElementById("stat-upcoming").textContent = events.filter(e => new Date(e.date) >= today && e.status !== 'cancelled').length;
+  document.getElementById("stat-done").textContent = events.filter(e => e.status === 'done').length;
+}
+
+// ─── FILTER ──────────────────────────────────────────────────────
+function setFilter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+// ─── SAVE ────────────────────────────────────────────────────────
+function saveEvent() {
+  const title  = document.getElementById("inp-title").value.trim();
+  const date   = document.getElementById("inp-date").value;
+  const desc   = document.getElementById("inp-desc").value.trim();
+  const type   = document.querySelector('input[name="etype"]:checked').value;
+  const status = document.getElementById("inp-status").value;
+
+  if (!title || !date) { alert("Title and Date are required!"); return; }
+
+  const ev = { title, date, desc, type, status };
+
+  if (editIdx === -1) {
+    events.push(ev);
+  } else {
+    events[editIdx] = ev;
+    editIdx = -1;
+    document.getElementById("btn-cancel").style.display = "none";
+  }
+
+  persist();
+  clearForm();
+  render();
+}
+
+function clearForm() {
+  document.getElementById("inp-title").value = "";
+  document.getElementById("inp-date").value = "";
+  document.getElementById("inp-desc").value = "";
+  document.querySelector('input[name="etype"][value="workshop"]').checked = true;
+  document.getElementById("inp-status").value = "planned";
+}
+
+// ─── EDIT ────────────────────────────────────────────────────────
+function startEdit(idx) {
+  const ev = events[idx];
+  document.getElementById("inp-title").value = ev.title;
+  document.getElementById("inp-date").value = ev.date;
+  document.getElementById("inp-desc").value = ev.desc;
+  const radio = document.querySelector(`input[name="etype"][value="${ev.type}"]`);
+  if (radio) radio.checked = true;
+  document.getElementById("inp-status").value = ev.status;
+  editIdx = idx;
+  document.getElementById("btn-cancel").style.display = "block";
+  document.querySelector('.sidebar').scrollIntoView({ behavior: 'smooth' });
+}
+
+function cancelEdit() {
+  editIdx = -1;
+  clearForm();
+  document.getElementById("btn-cancel").style.display = "none";
+}
+
+// ─── DELETE ──────────────────────────────────────────────────────
+function deleteEvent(idx) {
+  if (!confirm(`Delete "${events[idx].title}"?`)) return;
+  events.splice(idx, 1);
+  persist();
+  render();
+}
+
+// ─── INIT ────────────────────────────────────────────────────────
+render();
+</script>
+
+</body>
+</html>
