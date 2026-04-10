@@ -624,8 +624,8 @@ header {
         <input type="radio" name="etype" id="t-hackathon" value="hackathon" class="tag-option">
         <label for="t-hackathon">💻 Hackathon</label>
 
-        <input type="radio" name="etype" id="t-internal" value="internal" class="tag-option">
-        <label for="t-internal">⚙️ others</label>
+        <input type="radio" name="etype" id="t-others" value="others" class="tag-option">
+        <label for="t-others">⚙️ Others</label>
 
         <input type="radio" name="etype" id="t-contest" value="contest" class="tag-option">
         <label for="t-contest">🏆 Competition</label>
@@ -798,7 +798,7 @@ function statusColor(s) {
 }
 
 function typeIcon(t) {
-  return { workshop:'🛠', hackathon:'💻', others:'⚙️', competition:'🏆', collab:'🤝' }[t] || '📌';
+  return { workshop:'🛠', hackathon:'💻', others:'⚙️', contest:'🏆', collab:'🤝' }[t] || '📌';
 }
 
 // ─── RENDER ──────────────────────────────────────────────────────
