@@ -724,6 +724,11 @@ let editIdx = -1;
 let currentFilter = 'all';
 const SHEETDB_API = "https://sheetdb.io/api/v1/4yirtp7b26t1a";
 
+// Helper to generate a unique id (timestamp + random)
+function generateId() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+}
+
 // ─── SHEETDB HELPERS ─────────────────────────────────────────────
 async function fetchEvents() {
   try {
@@ -747,9 +752,8 @@ async function addEventToSheetDB(ev) {
 }
 
 async function updateEventInSheetDB(idx, ev) {
-  // SheetDB does not support direct row update by index, so we use title+date as key
   const old = events[idx];
-  await fetch(`${SHEETDB_API}/title/${encodeURIComponent(old.title)}/date/${encodeURIComponent(old.date)}`, {
+  await fetch(`${SHEETDB_API}/id/${encodeURIComponent(old.id)}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(ev)
@@ -758,7 +762,7 @@ async function updateEventInSheetDB(idx, ev) {
 
 async function deleteEventFromSheetDB(idx) {
   const ev = events[idx];
-  await fetch(`${SHEETDB_API}/title/${encodeURIComponent(ev.title)}/date/${encodeURIComponent(ev.date)}`, {
+  await fetch(`${SHEETDB_API}/id/${encodeURIComponent(ev.id)}`, {
     method: "DELETE" });
 }
 
@@ -886,11 +890,12 @@ async function saveEvent() {
 
   if (!title || !date) { alert("Title and Date are required!"); return; }
 
-  const ev = { title, date, desc, type, status };
-
+  let ev;
   if (editIdx === -1) {
+    ev = { id: generateId(), title, date, desc, type, status };
     await addEventToSheetDB(ev);
   } else {
+    ev = { ...events[editIdx], title, date, desc, type, status };
     await updateEventInSheetDB(editIdx, ev);
     editIdx = -1;
     document.getElementById("btn-cancel").style.display = "none";
