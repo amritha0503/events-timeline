@@ -719,17 +719,47 @@ const DEFAULT_EVENTS = [
 ];
 
 // ─── STATE ───────────────────────────────────────────────────────
-let events = JSON.parse(localStorage.getItem("encide_events_v2")) || null;
-if (!events) {
-  events = JSON.parse(JSON.stringify(DEFAULT_EVENTS));
-  persist();
-}
+let events = [];
 let editIdx = -1;
 let currentFilter = 'all';
+const SHEETDB_API = "https://sheetdb.io/api/v1/4yirtp7b26t1a";
 
-// ─── PERSIST ─────────────────────────────────────────────────────
-function persist() {
-  localStorage.setItem("encide_events_v2", JSON.stringify(events));
+// ─── SHEETDB HELPERS ─────────────────────────────────────────────
+async function fetchEvents() {
+  try {
+    const res = await fetch(SHEETDB_API);
+    const data = await res.json();
+    events = data;
+    render();
+  } catch (e) {
+    alert("Failed to load events from SheetDB");
+    events = [];
+    render();
+  }
+}
+
+async function addEventToSheetDB(ev) {
+  await fetch(SHEETDB_API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ data: [ev] })
+  });
+}
+
+async function updateEventInSheetDB(idx, ev) {
+  // SheetDB does not support direct row update by index, so we use title+date as key
+  const old = events[idx];
+  await fetch(`${SHEETDB_API}/title/${encodeURIComponent(old.title)}/date/${encodeURIComponent(old.date)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(ev)
+  });
+}
+
+async function deleteEventFromSheetDB(idx) {
+  const ev = events[idx];
+  await fetch(`${SHEETDB_API}/title/${encodeURIComponent(ev.title)}/date/${encodeURIComponent(ev.date)}`, {
+    method: "DELETE" });
 }
 
 // ─── HELPERS ─────────────────────────────────────────────────────
@@ -847,11 +877,11 @@ function setFilter(f, el) {
 }
 
 // ─── SAVE ────────────────────────────────────────────────────────
-function saveEvent() {
+async function saveEvent() {
   const title  = document.getElementById("inp-title").value.trim();
   const date   = document.getElementById("inp-date").value;
   const desc   = document.getElementById("inp-desc").value.trim();
-  const type   = document.querySelector('input[name="etype"]:checked').value;
+  const type   = document.querySelector('input[name=\"etype\"]:checked').value;
   const status = document.getElementById("inp-status").value;
 
   if (!title || !date) { alert("Title and Date are required!"); return; }
@@ -859,16 +889,15 @@ function saveEvent() {
   const ev = { title, date, desc, type, status };
 
   if (editIdx === -1) {
-    events.push(ev);
+    await addEventToSheetDB(ev);
   } else {
-    events[editIdx] = ev;
+    await updateEventInSheetDB(editIdx, ev);
     editIdx = -1;
     document.getElementById("btn-cancel").style.display = "none";
   }
 
-  persist();
   clearForm();
-  render();
+  fetchEvents();
 }
 
 function clearForm() {
@@ -900,15 +929,14 @@ function cancelEdit() {
 }
 
 // ─── DELETE ──────────────────────────────────────────────────────
-function deleteEvent(idx) {
+async function deleteEvent(idx) {
   if (!confirm(`Delete "${events[idx].title}"?`)) return;
-  events.splice(idx, 1);
-  persist();
-  render();
+  await deleteEventFromSheetDB(idx);
+  fetchEvents();
 }
 
 // ─── INIT ────────────────────────────────────────────────────────
-render();
+fetchEvents();
 </script>
 
 </body>
