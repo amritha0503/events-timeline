@@ -646,10 +646,7 @@ header {
       </select>
     </div>
 
-    <div style="margin-top:8px;display:flex;align-items:center;gap:8px;">
-      <input type="checkbox" id="inp-done" style="width:16px;height:16px;">
-      <label for="inp-done" style="font-size:0.9em;">Mark as Done 🎉</label>
-    </div>
+    <!-- Done checkbox moved to timeline cards -->
 
     <button class="btn-save" onclick="saveEvent()">Save Event</button>
     <button class="btn-cancel" id="btn-cancel" onclick="cancelEdit()">Cancel Edit</button>
@@ -874,6 +871,10 @@ function render() {
             <span class="status-dot" style="background:${statusColor(ev.status)}"></span>${ev.status}
           </span>
         </div>
+        <div style="margin-top:10px;display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" id="done-${ev.id}" ${ev.status === 'done' ? 'checked' : ''} onchange="toggleDoneStatus('${ev.id}', this.checked)" style="width:16px;height:16px;">
+          <label for="done-${ev.id}" style="font-size:0.9em;">Mark as Done 🎉</label>
+        </div>
       </div>
       <div class="event-actions">
         <button class="btn-edit" onclick="startEdit(${realIdx})">Edit</button>
@@ -902,6 +903,23 @@ function setFilter(f, el) {
 }
 
 // ─── SAVE ────────────────────────────────────────────────────────
+
+// Toggle done status from timeline
+async function toggleDoneStatus(id, checked) {
+  const idx = events.findIndex(e => e.id === id);
+  if (idx === -1) return;
+  const ev = { ...events[idx] };
+  ev.status = checked ? 'done' : 'planned';
+  await updateEventInSheetDB(idx, ev);
+  if (checked) {
+    // Switch to Done tab
+    const doneTab = Array.from(document.querySelectorAll('.filter-tab')).find(btn => btn.textContent.trim().toLowerCase() === 'done');
+    if (doneTab) setFilter('done', doneTab);
+    else fetchEvents();
+  } else {
+    fetchEvents();
+  }
+}
 async function saveEvent() {
   const title  = document.getElementById("inp-title").value.trim();
   const date   = document.getElementById("inp-date").value;
@@ -943,7 +961,6 @@ function startEdit(idx) {
   const radio = document.querySelector(`input[name="etype"][value="${ev.type}"]`);
   if (radio) radio.checked = true;
   document.getElementById("inp-status").value = ev.status === "done" ? "planned" : ev.status;
-  document.getElementById("inp-done").checked = false;
   editIdx = idx;
   document.getElementById("btn-cancel").style.display = "block";
   document.querySelector('.sidebar').scrollIntoView({ behavior: 'smooth' });
