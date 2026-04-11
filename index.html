@@ -510,25 +510,7 @@ header {
       <textarea id="inp-desc" placeholder="What's the event about? Who should attend?"></textarea>
     </div>
 
-    <div class="form-group">
-      <label>Event Type</label>
-      <div class="tag-grid">
-        <input type="radio" name="etype" id="t-workshop"  value="workshop"  class="tag-option" checked>
-        <label for="t-workshop">🛠 Workshop</label>
-
-        <input type="radio" name="etype" id="t-hackathon" value="hackathon" class="tag-option">
-        <label for="t-hackathon">💻 Hackathon</label>
-
-        <input type="radio" name="etype" id="t-contest"   value="contest"   class="tag-option">
-        <label for="t-contest">🏆 Competition</label>
-
-        <input type="radio" name="etype" id="t-collab"    value="collab"    class="tag-option">
-        <label for="t-collab">🤝 Collab</label>
-
-        <input type="radio" name="etype" id="t-others"    value="others"    class="tag-option">
-        <label for="t-others">⚙️ Others</label>
-      </div>
-    </div>
+    <!-- Event type option removed -->
 
     <div class="form-group">
       <label>Status</label>
@@ -677,7 +659,7 @@ function render() {
 
     const { day, month } = fmtDate(ev.date);
     const isDone  = ev.status === 'done';
-    const evType  = ev.type || 'others';
+    // type removed
     const evStatus = ev.status || 'planned';
 
     const card = document.createElement("div");
@@ -692,7 +674,6 @@ function render() {
         <div class="event-title">${ev.title}</div>
         <div class="event-desc">${ev.desc || ''}</div>
         <div class="event-tags">
-          <span class="event-tag tag-${evType}">${typeIcon(evType)} ${evType}</span>
           <span class="event-tag" style="
             background:${statusColor(evStatus)}22;
             color:${statusColor(evStatus)};
@@ -771,7 +752,7 @@ async function saveEvent() {
   const title  = document.getElementById("inp-title").value.trim();
   const date   = document.getElementById("inp-date").value;
   const desc   = document.getElementById("inp-desc").value.trim();
-  const type   = document.querySelector('input[name="etype"]:checked')?.value || 'others';
+  // type removed
   const status = document.getElementById("inp-status").value;
 
   if (!title || !date) { alert("Title and Date are required!"); return; }
@@ -781,12 +762,11 @@ async function saveEvent() {
 
   try {
     if (editIdx === -1) {
-      const ev = { id: generateId(), title, date, desc, type, status };
+      const ev = { id: generateId(), title, date, desc, status };
       await addEventToSheetDB(ev);
     } else {
       const existingId = events[editIdx].id;
-      // Send full row on update so all columns are refreshed
-      await updateEventInSheetDB(existingId, { id: existingId, title, date, desc, type, status });
+      await updateEventInSheetDB(existingId, { id: existingId, title, date, desc, status });
       editIdx = -1;
       document.getElementById("btn-cancel").style.display = "none";
     }
@@ -804,8 +784,7 @@ function clearForm() {
   document.getElementById("inp-title").value = "";
   document.getElementById("inp-date").value  = "";
   document.getElementById("inp-desc").value  = "";
-  const ws = document.querySelector('input[name="etype"][value="workshop"]');
-  if (ws) ws.checked = true;
+  // type reset removed
   document.getElementById("inp-status").value = "planned";
 }
 
@@ -816,8 +795,7 @@ function startEdit(idx) {
   document.getElementById("inp-date").value  = ev.date   || '';
   document.getElementById("inp-desc").value  = ev.desc   || '';
 
-  const radio = document.querySelector(`input[name="etype"][value="${ev.type || 'others'}"]`);
-  if (radio) radio.checked = true;
+  // type edit removed
 
   // 'done' is toggled by checkbox only — don't show it in status dropdown
   document.getElementById("inp-status").value =
