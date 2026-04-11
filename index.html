@@ -33,7 +33,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Background grid */
 body::before {
   content: '';
   position: fixed;
@@ -46,7 +45,6 @@ body::before {
   z-index: 0;
 }
 
-/* ─── HEADER ─── */
 header {
   position: relative;
   z-index: 10;
@@ -59,11 +57,7 @@ header {
   gap: 16px;
 }
 
-.logo {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-}
+.logo { display: flex; align-items: baseline; gap: 12px; }
 
 .logo-name {
   font-size: 2rem;
@@ -83,15 +77,8 @@ header {
   text-transform: uppercase;
 }
 
-.header-stats {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.stat {
-  text-align: center;
-}
+.header-stats { display: flex; gap: 24px; flex-wrap: wrap; }
+.stat { text-align: center; }
 
 .stat-num {
   font-family: var(--font-mono);
@@ -107,7 +94,6 @@ header {
   letter-spacing: 1.5px;
 }
 
-/* ─── EXAM BANNER ─── */
 .exam-banner {
   position: relative;
   z-index: 10;
@@ -127,37 +113,12 @@ header {
   margin-bottom: 12px;
 }
 
-.exam-grid {
-  display: flex;
-  gap: 32px;
-  flex-wrap: wrap;
-}
+.exam-grid { display: flex; gap: 32px; flex-wrap: wrap; }
+.exam-item { display: flex; align-items: center; gap: 10px; }
+.exam-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.exam-text { font-size: 0.82rem; color: var(--text); }
+.exam-text span { font-family: var(--font-mono); color: var(--accent3); font-size: 0.75rem; }
 
-.exam-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.exam-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.exam-text {
-  font-size: 0.82rem;
-  color: var(--text);
-}
-
-.exam-text span {
-  font-family: var(--font-mono);
-  color: var(--accent3);
-  font-size: 0.75rem;
-}
-
-/* ─── MAIN LAYOUT ─── */
 .main {
   position: relative;
   z-index: 10;
@@ -167,9 +128,8 @@ header {
   min-height: calc(100vh - 180px);
 }
 
-/* ─── SIDEBAR FORM ─── */
 .sidebar {
-  padding: 28px 28px;
+  padding: 28px;
   border-right: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -185,9 +145,7 @@ header {
   margin-bottom: 20px;
 }
 
-.form-group {
-  margin-bottom: 16px;
-}
+.form-group { margin-bottom: 16px; }
 
 .form-group label {
   display: block;
@@ -222,20 +180,10 @@ header {
   box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
 }
 
-.form-group textarea {
-  resize: vertical;
-  min-height: 80px;
-}
+.form-group textarea { resize: vertical; min-height: 80px; }
 
-.tag-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.tag-option {
-  display: none;
-}
+.tag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tag-option { display: none; }
 
 .tag-option + label {
   display: flex;
@@ -276,6 +224,7 @@ header {
 
 .btn-save:hover { opacity: 0.9; transform: translateY(-1px); }
 .btn-save:active { transform: translateY(0); }
+.btn-save:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
 .btn-cancel {
   width: 100%;
@@ -294,10 +243,7 @@ header {
 
 .btn-cancel:hover { border-color: var(--red); color: var(--red); }
 
-/* ─── TIMELINE PANEL ─── */
-.timeline-panel {
-  padding: 28px 36px;
-}
+.timeline-panel { padding: 28px 36px; }
 
 .timeline-header {
   display: flex;
@@ -336,13 +282,8 @@ header {
   letter-spacing: 1px;
 }
 
-.filter-tab.active {
-  background: var(--accent);
-  color: #000;
-  font-weight: 700;
-}
+.filter-tab.active { background: var(--accent); color: #000; font-weight: 700; }
 
-/* ─── PHASE HEADERS ─── */
 .phase-label {
   display: flex;
   align-items: center;
@@ -359,11 +300,7 @@ header {
   white-space: nowrap;
 }
 
-.phase-line {
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
+.phase-line { flex: 1; height: 1px; background: var(--border); }
 
 .phase-badge {
   font-family: var(--font-mono);
@@ -371,14 +308,12 @@ header {
   padding: 3px 10px;
   border-radius: 20px;
   white-space: nowrap;
+  background: rgba(0,212,255,0.12);
+  color: var(--accent);
+  border: 1px solid rgba(0,212,255,0.25);
 }
 
-/* ─── EVENT CARDS ─── */
-.events-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+.events-list { display: flex; flex-direction: column; gap: 12px; }
 
 .event-card {
   background: var(--card);
@@ -397,16 +332,14 @@ header {
 .event-card::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
+  left: 0; top: 0; bottom: 0;
   width: 3px;
+  background: var(--accent);
 }
 
-.event-card:hover {
-  border-color: rgba(0,212,255,0.3);
-  transform: translateX(3px);
-}
+.event-card.done-card { opacity: 0.65; }
+.event-card.done-card::before { background: var(--green); }
+.event-card:hover { border-color: rgba(0,212,255,0.3); transform: translateX(3px); }
 
 .event-date-box {
   text-align: center;
@@ -433,26 +366,9 @@ header {
   margin-top: 3px;
 }
 
-.event-body {}
-
-.event-title {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 5px;
-}
-
-.event-desc {
-  font-size: 0.8rem;
-  color: var(--muted);
-  line-height: 1.5;
-  margin-bottom: 10px;
-}
-
-.event-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
+.event-title { font-size: 1rem; font-weight: 700; margin-bottom: 5px; }
+.event-desc  { font-size: 0.8rem; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+.event-tags  { display: flex; flex-wrap: wrap; gap: 6px; }
 
 .event-tag {
   font-family: var(--font-mono);
@@ -463,11 +379,35 @@ header {
   text-transform: uppercase;
 }
 
-.event-actions {
+/* ── type colours — all five types covered ── */
+.tag-workshop  { background: rgba(0,212,255,0.12);  color: #00d4ff; }
+.tag-hackathon { background: rgba(124,58,237,0.15); color: #a78bfa; }
+.tag-contest   { background: rgba(236,72,153,0.12); color: #f472b6; }
+.tag-collab    { background: rgba(239,68,68,0.12);  color: #f87171; }
+.tag-others    { background: rgba(16,185,129,0.12); color: #10b981; }
+
+.done-row {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
 }
+
+.done-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--green);
+  cursor: pointer;
+}
+
+.done-row label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.event-actions { display: flex; flex-direction: column; gap: 6px; }
 
 .btn-edit, .btn-del {
   padding: 6px 12px;
@@ -480,29 +420,11 @@ header {
   white-space: nowrap;
 }
 
-.btn-edit {
-  background: transparent;
-  border-color: var(--border);
-  color: var(--muted);
-}
+.btn-edit { background: transparent; border-color: var(--border); color: var(--muted); }
+.btn-edit:hover { border-color: var(--accent); color: var(--accent); }
+.btn-del  { background: transparent; border-color: transparent; color: var(--muted); }
+.btn-del:hover  { border-color: var(--red); color: var(--red); }
 
-.btn-edit:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.btn-del {
-  background: transparent;
-  border-color: transparent;
-  color: var(--muted);
-}
-
-.btn-del:hover {
-  border-color: var(--red);
-  color: var(--red);
-}
-
-/* status badge */
 .status-dot {
   width: 8px; height: 8px;
   border-radius: 50%;
@@ -510,36 +432,18 @@ header {
   margin-right: 5px;
 }
 
-/* ─── EMPTY STATE ─── */
-.empty {
+.empty { text-align: center; padding: 60px 20px; color: var(--muted); }
+.empty-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.3; }
+
+.loading-msg {
   text-align: center;
   padding: 60px 20px;
   color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
 }
 
-.empty-icon {
-  font-size: 3rem;
-  margin-bottom: 16px;
-  opacity: 0.3;
-}
-
-/* ─── TAG COLORS ─── */
-.tag-workshop   { background: rgba(0,212,255,0.12); color: #00d4ff; }
-.tag-hackathon  { background: rgba(124,58,237,0.15); color: #a78bfa; }
-.tag-talk       { background: rgba(245,158,11,0.12); color: #f59e0b; }
-.tag-internal   { background: rgba(16,185,129,0.12); color: #10b981; }
-.tag-collab     { background: rgba(239,68,68,0.12); color: #f87171; }
-.tag-contest    { background: rgba(236,72,153,0.12); color: #f472b6; }
-
-.phase-pre   .phase-badge { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
-.phase-mid   .phase-badge { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
-.phase-post  .phase-badge { background: rgba(0,212,255,0.15); color: #00d4ff; border: 1px solid rgba(0,212,255,0.3); }
-
-.pre-card::before   { background: var(--green); }
-.mid-card::before   { background: var(--accent3); }
-.post-card::before  { background: var(--accent); }
-
-/* ─── RESPONSIVE ─── */
 @media (max-width: 860px) {
   .main { grid-template-columns: 1fr; }
   .sidebar { border-right: none; border-bottom: 1px solid var(--border); position: static; }
@@ -557,18 +461,9 @@ header {
     <span class="logo-sub">// Event Planner</span>
   </div>
   <div class="header-stats">
-    <div class="stat">
-      <div class="stat-num" id="stat-total">0</div>
-      <div class="stat-label">Events</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" id="stat-upcoming">0</div>
-      <div class="stat-label">Upcoming</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" id="stat-done">0</div>
-      <div class="stat-label">Done</div>
-    </div>
+    <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Events</div></div>
+    <div class="stat"><div class="stat-num" id="stat-upcoming">—</div><div class="stat-label">Upcoming</div></div>
+    <div class="stat"><div class="stat-num" id="stat-done">—</div><div class="stat-label">Done</div></div>
   </div>
 </header>
 
@@ -596,9 +491,9 @@ header {
 
 <div class="main">
 
-  <!-- SIDEBAR -->
+  <!-- SIDEBAR FORM -->
   <div class="sidebar">
-    <h2>// Add Event</h2>
+    <h2>// Add / Edit Event</h2>
 
     <div class="form-group">
       <label>Event Title</label>
@@ -618,37 +513,34 @@ header {
     <div class="form-group">
       <label>Event Type</label>
       <div class="tag-grid">
-        <input type="radio" name="etype" id="t-workshop" value="workshop" class="tag-option" checked>
+        <input type="radio" name="etype" id="t-workshop"  value="workshop"  class="tag-option" checked>
         <label for="t-workshop">🛠 Workshop</label>
 
         <input type="radio" name="etype" id="t-hackathon" value="hackathon" class="tag-option">
         <label for="t-hackathon">💻 Hackathon</label>
 
-        <input type="radio" name="etype" id="t-others" value="others" class="tag-option">
-        <label for="t-others">⚙️ Others</label>
-
-        <input type="radio" name="etype" id="t-contest" value="contest" class="tag-option">
+        <input type="radio" name="etype" id="t-contest"   value="contest"   class="tag-option">
         <label for="t-contest">🏆 Competition</label>
 
-        <input type="radio" name="etype" id="t-collab" value="collab" class="tag-option">
+        <input type="radio" name="etype" id="t-collab"    value="collab"    class="tag-option">
         <label for="t-collab">🤝 Collab</label>
+
+        <input type="radio" name="etype" id="t-others"    value="others"    class="tag-option">
+        <label for="t-others">⚙️ Others</label>
       </div>
     </div>
 
     <div class="form-group">
       <label>Status</label>
       <select id="inp-status">
-        <option value="not_planned">Not Planned</option>
-        <option value="planned">📋 Planned</option>
+        <option value="not_planned">🔘 Not Planned</option>
+        <option value="planned" selected>📋 Planned</option>
         <option value="confirmed">✅ Confirmed</option>
-        <option value="done">🎉 Done</option>
         <option value="cancelled">❌ Cancelled</option>
       </select>
     </div>
 
-    <!-- Done checkbox moved to timeline cards -->
-
-    <button class="btn-save" onclick="saveEvent()">Save Event</button>
+    <button class="btn-save" id="btn-save" onclick="saveEvent()">Save Event</button>
     <button class="btn-cancel" id="btn-cancel" onclick="cancelEdit()">Cancel Edit</button>
   </div>
 
@@ -662,201 +554,135 @@ header {
         <button class="filter-tab" onclick="setFilter('done', this)">Done</button>
       </div>
     </div>
-    <div class="events-list" id="events-list"></div>
+    <div class="events-list" id="events-list">
+      <div class="loading-msg">⟳ &nbsp;Loading events…</div>
+    </div>
   </div>
 </div>
 
 <script>
-// ─── DEFAULT EVENTS ───────────────────────────────────────────────
-const DEFAULT_EVENTS = [
-  {
-    title: "ExeCom Planning Meet",
-    date: "2025-04-13",
-    desc: "Internal session for ExeCom to plan the semester event calendar, assign roles, and set goals. Discuss previous event feedback from ex-leads.",
-    type: "others",
-    status: "planned"
-  },
-  {
-    title: "Skills Workshop — Web Dev Basics",
-    date: "2025-04-19",
-    desc: "Hands-on HTML/CSS/JS workshop for all years. Last Saturday before any exams begin. Great entry point for freshers.",
-    type: "workshop",
-    status: "planned"
-  },
-  {
-    title: "Mini Coding Contest",
-    date: "2025-05-17",
-    desc: "Quick 2-hour competitive coding contest on Codeforces/HackerRank. Open to 1st and 2nd years (3rd years still in exams). Low stakes, high energy.",
-    type: "contest",
-    status: "planned"
-  },
-  {
-    title: "Tech Talk — Industry Insights",
-    date: "2025-05-22",
-    desc: "Invite a senior student, alumni, or industry guest for a 1-hour talk on internships, open source, or emerging tech trends. Online-friendly format.",
-    type: "talk",
-    status: "planned"
-  },
-  {
-    title: "ENCIDE Flagship Hackathon",
-    date: "2025-05-31",
-    desc: "Main event of the semester! All years are free. 6–12 hour hackathon with themes, mentors, and prizes. This is the quality event the ex-leads want to see.",
-    type: "hackathon",
-    status: "planned"
-  },
-  {
-    title: "Inter-Club Collab Event",
-    date: "2025-06-07",
-    desc: "Joint event with another college club (design, business, or robotics). Cross-disciplinary project showcase or challenge. Expands reach and visibility.",
-    type: "collab",
-    status: "planned"
-  },
-  {
-    title: "Semester Wrap-Up & Next Sem Planning",
-    date: "2025-06-14",
-    desc: "Review the semester, celebrate wins, collect feedback. Then kick off planning for the next semester. Transition meeting with new ExeCom leads if applicable.",
-    type: "internal",
-    status: "planned"
-  }
-];
+const SHEETDB_API = "https://sheetdb.io/api/v1/4yirtp7b26t1a";
 
-// ─── STATE ───────────────────────────────────────────────────────
 let events = [];
 let editIdx = -1;
 let currentFilter = 'all';
-const SHEETDB_API = "https://sheetdb.io/api/v1/4yirtp7b26t1a";
 
-// Helper to generate a unique id (timestamp + random)
+// ── Helpers ────────────────────────────────────────────────────────
 function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
 }
 
-// ─── SHEETDB HELPERS ─────────────────────────────────────────────
-async function fetchEvents() {
-  try {
-    const res = await fetch(SHEETDB_API);
-    const data = await res.json();
-    events = data;
-    render();
-  } catch (e) {
-    alert("Failed to load events from SheetDB");
-    events = [];
-    render();
-  }
-}
-
-async function addEventToSheetDB(ev) {
-  await fetch(SHEETDB_API, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ data: [ev] })
-  });
-}
-
-async function updateEventInSheetDB(idx, ev) {
-  const old = events[idx];
-  await fetch(`${SHEETDB_API}/id/${encodeURIComponent(old.id)}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(ev)
-  });
-}
-
-async function deleteEventFromSheetDB(idx) {
-  const ev = events[idx];
-  await fetch(`${SHEETDB_API}/id/${encodeURIComponent(ev.id)}`, {
-    method: "DELETE" });
-}
-
-// ─── HELPERS ─────────────────────────────────────────────────────
-
-
-function getPhase(dateStr) {
-  const d = new Date(dateStr + "T00:00:00");
-  // Use YYYY-MM for unique phase per month
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-}
-
-
-function phaseLabel(p) {
-  // p is in format YYYY-MM
-  const [year, month] = p.split('-');
-  const date = new Date(`${year}-${month}-01T00:00:00`);
-  const label = date.toLocaleString('default', { month: 'long' });
-  return [label + ' ' + year, '', `phase-${year}-${month}`];
-}
-
-
 function fmtDate(dateStr) {
   const d = new Date(dateStr + "T00:00:00");
   return {
-    day: d.getDate(),
+    day:   d.getDate(),
     month: d.toLocaleString('default', { month: 'short' }).toUpperCase()
   };
 }
 
+function getMonthKey(dateStr) { return dateStr.slice(0, 7); }
+
+function monthLabel(key) {
+  const [y, m] = key.split('-');
+  return new Date(`${y}-${m}-01T00:00:00`)
+           .toLocaleString('default', { month: 'long' }) + ' ' + y;
+}
+
 function statusColor(s) {
-  return {
-    planned: '#94a3b8',
-    confirmed: '#10b981',
-    done: '#00d4ff',
-    cancelled: '#ef4444',
-    not_planned: '#f59e0b' // Add this line for your new status
-  }[s] || '#94a3b8';
+  return { not_planned:'#f59e0b', planned:'#94a3b8',
+           confirmed:'#10b981', done:'#00d4ff', cancelled:'#ef4444' }[s] || '#94a3b8';
 }
 
 function typeIcon(t) {
-  return { workshop:'🛠', hackathon:'💻', others:'⚙️', contest:'🏆', collab:'🤝' }[t] || '📌';
+  return { workshop:'🛠', hackathon:'💻', contest:'🏆', collab:'🤝', others:'⚙️' }[t] || '📌';
 }
 
-function statusLabel(s) {
-  return {
-    planned: 'Planned',
-    confirmed: 'Confirmed',
-    done: 'Done',
-    cancelled: 'Cancelled',
-    not_planned: 'Not Planned'
-  }[s] || s;
+// ── SheetDB ────────────────────────────────────────────────────────
+
+async function fetchEvents() {
+  try {
+    const res = await fetch(SHEETDB_API);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    events = await res.json();
+    if (!Array.isArray(events)) events = [];
+  } catch (e) {
+    console.error("fetchEvents:", e);
+    events = [];
+  }
+  render();
 }
 
-// ─── RENDER ──────────────────────────────────────────────────────
+async function addEventToSheetDB(ev) {
+  // SheetDB POST: { data: [ rowObject ] }
+  const res = await fetch(SHEETDB_API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ data: [ev] })
+  });
+  if (!res.ok) throw new Error("POST " + res.status);
+}
+
+async function updateEventInSheetDB(id, fields) {
+  // SheetDB PATCH by column 'id': { data: { field: val } }
+  const res = await fetch(`${SHEETDB_API}/id/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ data: fields })
+  });
+  if (!res.ok) throw new Error("PATCH " + res.status);
+}
+
+async function deleteEventFromSheetDB(id) {
+  const res = await fetch(`${SHEETDB_API}/id/${encodeURIComponent(id)}`, {
+    method: "DELETE"
+  });
+  if (!res.ok) throw new Error("DELETE " + res.status);
+}
+
+// ── Render ─────────────────────────────────────────────────────────
 function render() {
-  const list = document.getElementById("events-list");
+  const list  = document.getElementById("events-list");
   const today = new Date(); today.setHours(0,0,0,0);
 
   let filtered = [...events].sort((a,b) => new Date(a.date) - new Date(b.date));
 
-  if (currentFilter === 'upcoming') filtered = filtered.filter(e => new Date(e.date) >= today && e.status !== 'done' && e.status !== 'cancelled');
-  if (currentFilter === 'done') filtered = filtered.filter(e => e.status === 'done');
+  if (currentFilter === 'upcoming')
+    filtered = filtered.filter(e => new Date(e.date) >= today
+                                 && e.status !== 'done' && e.status !== 'cancelled');
+  if (currentFilter === 'done')
+    filtered = filtered.filter(e => e.status === 'done');
 
   list.innerHTML = "";
 
   if (!filtered.length) {
-    list.innerHTML = `<div class="empty"><div class="empty-icon">📭</div><p>No events here yet.</p></div>`;
+    list.innerHTML = `<div class="empty"><div class="empty-icon">📭</div><p>No events here.</p></div>`;
     updateStats(); return;
   }
 
-  let lastPhase = null;
+  let lastMonth = null;
 
-  filtered.forEach((ev, vi) => {
-    const realIdx = events.indexOf(ev);
-    const phase = getPhase(ev.date);
+  filtered.forEach(ev => {
+    const realIdx  = events.findIndex(e => e.id === ev.id);
+    const monthKey = getMonthKey(ev.date);
 
-    if (phase !== lastPhase) {
-      lastPhase = phase;
-      const [pl, ps, pc] = phaseLabel(phase);
-      const ph = document.createElement("div");
-      ph.className = `phase-label ${pc}`;
-      ph.innerHTML = `<span class="phase-line"></span><span class="phase-label-text">${pl}</span><span class="phase-badge">${ps}</span><span class="phase-line"></span>`;
-      list.appendChild(ph);
+    if (monthKey !== lastMonth) {
+      lastMonth = monthKey;
+      const sep = document.createElement("div");
+      sep.className = "phase-label";
+      sep.innerHTML = `<span class="phase-line"></span>
+                       <span class="phase-label-text">${monthLabel(monthKey)}</span>
+                       <span class="phase-line"></span>`;
+      list.appendChild(sep);
     }
 
     const { day, month } = fmtDate(ev.date);
-    // Use a generic card class for month-based grouping
-    const phaseCardClass = "month-card";
+    const isDone  = ev.status === 'done';
+    const evType  = ev.type || 'others';
+    const evStatus = ev.status || 'planned';
 
     const card = document.createElement("div");
-    card.className = `event-card ${phaseCardClass}`;
+    card.className = `event-card${isDone ? ' done-card' : ''}`;
+
     card.innerHTML = `
       <div class="event-date-box">
         <div class="event-day">${day}</div>
@@ -864,23 +690,29 @@ function render() {
       </div>
       <div class="event-body">
         <div class="event-title">${ev.title}</div>
-        <div class="event-desc">${ev.desc}</div>
+        <div class="event-desc">${ev.desc || ''}</div>
         <div class="event-tags">
-          <span class="event-tag tag-${ev.type}">${typeIcon(ev.type)} ${ev.type}</span>
-          <span class="event-tag" style="background:${statusColor(ev.status)}22;color:${statusColor(ev.status)};border:1px solid ${statusColor(ev.status)}44">
-            <span class="status-dot" style="background:${statusColor(ev.status)}"></span>${ev.status}
+          <span class="event-tag tag-${evType}">${typeIcon(evType)} ${evType}</span>
+          <span class="event-tag" style="
+            background:${statusColor(evStatus)}22;
+            color:${statusColor(evStatus)};
+            border:1px solid ${statusColor(evStatus)}44">
+            <span class="status-dot" style="background:${statusColor(evStatus)}"></span>
+            ${evStatus}
           </span>
         </div>
-        <div style="margin-top:10px;display:flex;align-items:center;gap:8px;">
-          <input type="checkbox" id="done-${ev.id}" ${ev.status === 'done' ? 'checked' : ''} onchange="toggleDoneStatus('${ev.id}', this.checked)" style="width:16px;height:16px;">
-          <label for="done-${ev.id}" style="font-size:0.9em;">Mark as Done 🎉</label>
+        <div class="done-row">
+          <input type="checkbox" id="cb-${ev.id}"
+            ${isDone ? 'checked' : ''}
+            onchange="toggleDone('${ev.id}', this.checked)">
+          <label for="cb-${ev.id}">Mark as Done 🎉</label>
         </div>
       </div>
       <div class="event-actions">
         <button class="btn-edit" onclick="startEdit(${realIdx})">Edit</button>
-        <button class="btn-del" onclick="deleteEvent(${realIdx})">Delete</button>
-      </div>
-    `;
+        <button class="btn-del"  onclick="deleteEvent('${ev.id}')">Delete</button>
+      </div>`;
+
     list.appendChild(card);
   });
 
@@ -889,12 +721,13 @@ function render() {
 
 function updateStats() {
   const today = new Date(); today.setHours(0,0,0,0);
-  document.getElementById("stat-total").textContent = events.length;
-  document.getElementById("stat-upcoming").textContent = events.filter(e => new Date(e.date) >= today && e.status !== 'cancelled').length;
-  document.getElementById("stat-done").textContent = events.filter(e => e.status === 'done').length;
+  document.getElementById("stat-total").textContent    = events.length;
+  document.getElementById("stat-upcoming").textContent = events.filter(e =>
+    new Date(e.date) >= today && e.status !== 'cancelled' && e.status !== 'done').length;
+  document.getElementById("stat-done").textContent     = events.filter(e => e.status === 'done').length;
 }
 
-// ─── FILTER ──────────────────────────────────────────────────────
+// ── Filter ─────────────────────────────────────────────────────────
 function setFilter(f, el) {
   currentFilter = f;
   document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
@@ -902,86 +735,122 @@ function setFilter(f, el) {
   render();
 }
 
-// ─── SAVE ────────────────────────────────────────────────────────
-
-// Toggle done status from timeline
-async function toggleDoneStatus(id, checked) {
+// ── Mark as Done ───────────────────────────────────────────────────
+// KEY FIX: update local array first → re-render immediately → then sync to SheetDB
+async function toggleDone(id, checked) {
   const idx = events.findIndex(e => e.id === id);
   if (idx === -1) return;
-  const ev = { ...events[idx] };
-  ev.status = checked ? 'done' : 'planned';
-  await updateEventInSheetDB(idx, ev);
+
+  // 1. Mutate local state immediately
+  events[idx] = { ...events[idx], status: checked ? 'done' : 'planned' };
+
+  // 2. Re-render right away (no waiting for network)
+  render();
+
+  // 3. Auto-switch to Done tab when checking
   if (checked) {
-    // Switch to Done tab
-    const doneTab = Array.from(document.querySelectorAll('.filter-tab')).find(btn => btn.textContent.trim().toLowerCase() === 'done');
+    const doneTab = [...document.querySelectorAll('.filter-tab')]
+                      .find(b => b.textContent.trim() === 'Done');
     if (doneTab) setFilter('done', doneTab);
-    else fetchEvents();
-  } else {
-    fetchEvents();
+  }
+
+  // 4. Sync to SheetDB in background
+  try {
+    await updateEventInSheetDB(id, { status: checked ? 'done' : 'planned' });
+  } catch (e) {
+    console.error("Sync error:", e);
+    // Revert local state on failure
+    events[idx] = { ...events[idx], status: checked ? 'planned' : 'done' };
+    render();
+    alert("Could not sync status to sheet. Check console.");
   }
 }
+
+// ── Save ───────────────────────────────────────────────────────────
 async function saveEvent() {
   const title  = document.getElementById("inp-title").value.trim();
   const date   = document.getElementById("inp-date").value;
   const desc   = document.getElementById("inp-desc").value.trim();
-  const type   = document.querySelector('input[name="etype"]:checked').value;
+  const type   = document.querySelector('input[name="etype"]:checked')?.value || 'others';
   const status = document.getElementById("inp-status").value;
 
   if (!title || !date) { alert("Title and Date are required!"); return; }
 
-  let ev;
-  if (editIdx === -1) {
-    ev = { id: generateId(), title, date, desc, type, status };
-    await addEventToSheetDB(ev);
-  } else {
-    ev = { ...events[editIdx], title, date, desc, type, status };
-    await updateEventInSheetDB(editIdx, ev);
-    editIdx = -1;
-    document.getElementById("btn-cancel").style.display = "none";
+  const btn = document.getElementById("btn-save");
+  btn.disabled = true; btn.textContent = "Saving…";
+
+  try {
+    if (editIdx === -1) {
+      const ev = { id: generateId(), title, date, desc, type, status };
+      await addEventToSheetDB(ev);
+    } else {
+      const existingId = events[editIdx].id;
+      // Send full row on update so all columns are refreshed
+      await updateEventInSheetDB(existingId, { id: existingId, title, date, desc, type, status });
+      editIdx = -1;
+      document.getElementById("btn-cancel").style.display = "none";
+    }
+  } catch(e) {
+    console.error("saveEvent:", e);
+    alert("Could not save. Check console.");
   }
 
+  btn.disabled = false; btn.textContent = "Save Event";
   clearForm();
-  fetchEvents();
+  await fetchEvents();   // refresh from SheetDB
 }
 
 function clearForm() {
   document.getElementById("inp-title").value = "";
-  document.getElementById("inp-date").value = "";
-  document.getElementById("inp-desc").value = "";
-  document.querySelector('input[name="etype"][value="workshop"]').checked = true;
+  document.getElementById("inp-date").value  = "";
+  document.getElementById("inp-desc").value  = "";
+  const ws = document.querySelector('input[name="etype"][value="workshop"]');
+  if (ws) ws.checked = true;
   document.getElementById("inp-status").value = "planned";
 }
 
-// ─── EDIT ────────────────────────────────────────────────────────
+// ── Edit ───────────────────────────────────────────────────────────
 function startEdit(idx) {
   const ev = events[idx];
-  document.getElementById("inp-title").value = ev.title;
-  document.getElementById("inp-date").value = ev.date;
-  document.getElementById("inp-desc").value = ev.desc;
-  const radio = document.querySelector(`input[name="etype"][value="${ev.type}"]`);
+  document.getElementById("inp-title").value = ev.title  || '';
+  document.getElementById("inp-date").value  = ev.date   || '';
+  document.getElementById("inp-desc").value  = ev.desc   || '';
+
+  const radio = document.querySelector(`input[name="etype"][value="${ev.type || 'others'}"]`);
   if (radio) radio.checked = true;
-  document.getElementById("inp-status").value = ev.status === "done" ? "planned" : ev.status;
+
+  // 'done' is toggled by checkbox only — don't show it in status dropdown
+  document.getElementById("inp-status").value =
+    (ev.status === 'done') ? 'planned' : (ev.status || 'planned');
+
   editIdx = idx;
   document.getElementById("btn-cancel").style.display = "block";
   document.querySelector('.sidebar').scrollIntoView({ behavior: 'smooth' });
 }
 
 function cancelEdit() {
-  editIdx = -1;
-  clearForm();
+  editIdx = -1; clearForm();
   document.getElementById("btn-cancel").style.display = "none";
 }
 
-// ─── DELETE ──────────────────────────────────────────────────────
-async function deleteEvent(idx) {
-  if (!confirm(`Delete "${events[idx].title}"?`)) return;
-  await deleteEventFromSheetDB(idx);
-  fetchEvents();
+// ── Delete ─────────────────────────────────────────────────────────
+async function deleteEvent(id) {
+  const ev = events.find(e => e.id === id);
+  if (!ev || !confirm(`Delete "${ev.title}"?`)) return;
+
+  events = events.filter(e => e.id !== id);   // remove locally first
+  render();
+
+  try {
+    await deleteEventFromSheetDB(id);
+  } catch(e) {
+    console.error("deleteEvent:", e);
+    await fetchEvents();   // resync on error
+  }
 }
 
-// ─── INIT ────────────────────────────────────────────────────────
+// ── Init ───────────────────────────────────────────────────────────
 fetchEvents();
 </script>
-
 </body>
 </html>
