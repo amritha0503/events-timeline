@@ -906,7 +906,7 @@ async function saveEvent() {
   const title  = document.getElementById("inp-title").value.trim();
   const date   = document.getElementById("inp-date").value;
   const desc   = document.getElementById("inp-desc").value.trim();
-  const type   = document.querySelector('input[name="etype\"]:checked').value;
+  const type   = document.querySelector('input[name="etype"]:checked').value;
   const status = document.getElementById("inp-status").value;
 
   if (!title || !date) { alert("Title and Date are required!"); return; }
